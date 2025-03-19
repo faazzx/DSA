@@ -1,75 +1,59 @@
 class Solution {
     List<List<String>> arr= new ArrayList<>();
-        List<String> ar= new ArrayList<>();
+    //List<String> ar= new ArrayList<>();
     public List<List<String>> solveNQueens(int n) {
-        
         int[][]matrix=new int[n][n];
-        StringBuilder sb = new StringBuilder();
         for(int i=0;i<n;i++){
             for(int j=0;j<n;j++){
                 matrix[i][j]=0;
             }
         }
-        int marker =0;
         int row=0;
-        String s="";
-        solver(ar,arr,row, matrix,n, marker);
+        solver(arr,row, matrix,n);
         return arr;
 
     }
-    void solver(List<String> ls,List<List<String>> arr, int row, int[][]matrix, int n, int marker){
+    void solver(List<List<String>> arr, int row, int[][]matrix, int n){
             if(row==n-1){
-                StringBuilder sb= new StringBuilder();
-                   for(int i=0;i<n ;i++){
-                      sb.append(".");
+                for(int l=0;l<n;l++){
+                    if(matrix[row][l]!=-1){
+                    List<String> ar1= new ArrayList<>();
+                        for(int i=0;i<n;i++){
+                            
+                            String s="";
+                            for(int j=0;j<n;j++){
+                                  if(matrix[i][j]==-1){
+                                    s=s+".";
+                                  }
+                                  else{
+                                    s=s+"Q";
+                                  }
+                            }
+                            ar1.add(s);
+                            
+                        }
+                        arr.add(ar1);
+                    }
                 }
-                for(int i=0;i<n;i++){
-                    
-                    if(matrix[row][i]>=0){
-                        
-                        sb.setCharAt(i, 'Q');
-                        ls.add(sb.toString());
-                        arr.add(ls);
-                         return ;
-                        
-                    }   
-                }
+                return ;
             }
             
-            
             for(int i=0;i<n ;i++){
-                if(matrix[row][i]>-1){
-                   StringBuilder sb= new StringBuilder();
-                     for(int p=0;p<n ;p++){
-                     sb.append(".");
-                        }
-                    sb.setCharAt(i, 'Q');
-                    List<String> ls2= new ArrayList<>(ls);
-                    ls2.add(sb.toString());
-                     marker--;
+                if(matrix[row][i]!=-1){
+                    
+                    int[][] copy = Arrays.stream(matrix).map(int[]::clone).toArray(int[][]::new);
+                     // marking new matrix with numbers
                      
                      for(int j=0;j<n;j++){
                         for(int k=0;k<n;k++){
-                            if(matrix[j][k]<0){}
-                            else if(j==row || i==k || row+i==j+k || row-i==j-k){
-                                matrix[j][k]=marker;
+                            if(j==row || i==k || row+i==j+k || row-i==j-k){
+                                copy[j][k]=-1;
                             }
-                            
-                        }
-                     } 
-                     matrix[row][i]=5;
-                     solver(ls2,arr,row+1,matrix,n,marker);
-                     for(int j=0;j<n;j++){
-                        for(int k=0;k<n;k++){
-                            if(matrix[j][k]==marker){
-                                matrix[j][k]=0;
-                            }
-                            
                         }
                      }
-                     marker++;
+                     copy[row][i]=5;
+                     solver(arr,row+1,copy,n);
                 }
-                
                 
             }
     }
