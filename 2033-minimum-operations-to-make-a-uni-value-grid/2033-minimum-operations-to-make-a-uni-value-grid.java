@@ -1,28 +1,28 @@
+import java.util.*;
+
 class Solution {
     public int minOperations(int[][] grid, int x) {
-        PriorityQueue<Integer> pq= new PriorityQueue<>();
-         int imp= grid[0][0]%x;
-        for(int i=0;i<grid.length;i++){
-            for(int j=0;j<grid[0].length;j++){
-
-                if(grid[i][j]%x!=imp) return -1;
-                pq.add(grid[i][j]);
-
+        List<Integer> all = new ArrayList<>();
+        
+        for (int[] row : grid) {
+            for (int num : row) {
+                all.add(num);
             }
         }
-         int m= grid.length;
-         int n= grid[0].length;
-         int [] arr=new int[m*n];
-          int u=0;
-         while(!pq.isEmpty()){
-             arr[u++]=pq.poll();
-         }
-         int median=arr[arr.length/2];
-         int op=0;
-         for(int num : arr){
-            op+=Math.abs(num-median)/x;
-         }
+        
+        int mod = all.get(0) % x;
+        for (int num : all) {
+            if (num % x != mod) return -1;
+        }
 
-         return op;
+        Collections.sort(all);
+        int median = all.get(all.size() / 2);
+        int operations = 0;
+
+        for (int num : all) {
+            operations += Math.abs(num - median) / x;
+        }
+
+        return operations;
     }
 }
