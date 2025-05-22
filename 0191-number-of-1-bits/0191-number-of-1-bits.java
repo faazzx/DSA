@@ -1,13 +1,14 @@
 class Solution {
     public int hammingWeight(int n) {
-        String s = Integer.toBinaryString(n);
-        int size= s.length();
-         int ct=0;
-        for(int i=0; i<size;i++){
-            if(s.charAt(i)=='1') ct++;
-        }
-         return ct;
+    int res = 0;
+    
+    while (n > 0) {
+        n = n & (n - 1); // Removes the lowest set bit
+        res += 1;
     }
+    
+    return res;
+}
        
         
     }
