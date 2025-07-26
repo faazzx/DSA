@@ -1,26 +1,25 @@
 class Solution {
+    HashMap<Integer, Integer> map = new HashMap<>();
     public int fib(int n) {
-        int [] dp= new int [n+1];
-         Arrays.fill(dp, -1);
-         solver(dp , n);
-         return dp[n];
+         
+         return solver(n);
 
-    }
-    int solver(int[] dp , int n){
-        if( dp[n]!=-1){
-            return dp[n];
+
+
+
         
     }
-    else {
-        if(n==0 || n==1){
-            dp[n]=n;
+
+
+     public  int solver( int num){
+        if(num==0) return 0;
+        if(num==1) return 1;
+        
+        if(map.getOrDefault( num, 0)==0){
+        int ans = solver(num-1) + solver(num-2);
+        map.put(num,ans);
+         return ans;
         }
-        else {
-            
-              dp[n]=solver(dp, n-1)+solver(dp, n-2);
-            
-        }
-         return dp[n];
-    }
-    }
+        else return map.get(num);
+     }
 }
